@@ -33,11 +33,12 @@ jobs:
       - name: Generate Allure Report
         run: npm run allure:generate
 
-      - name: Upload Allure Report as Artifact
+      - name: Upload Cypress Test Results
         uses: actions/upload-artifact@v3
         with:
-          name: allure-report
-          path: allure-report
+            name: cypress-results
+            path: cypress/screenshots/  # Change path based on what you need to upload
+
 
       - name: Deploy Allure Report to GitHub Pages
         if: github.ref == 'refs/heads/main'
