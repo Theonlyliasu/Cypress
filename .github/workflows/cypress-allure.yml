@@ -34,7 +34,7 @@ jobs:
         run: npm run allure:generate
 
       - name: Upload Cypress Test Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.2
         with:
             name: cypress-results
             path: cypress/screenshots/  # Change path based on what you need to upload
