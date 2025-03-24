@@ -1,0 +1,47 @@
+name: Cypress Tests with Allure Report
+
+on:
+  push:
+    branches:
+      - main  # Change to your branch if necessary
+  pull_request:
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+            node-version: 18  # Ensure this matches your Node.js version
+        
+      - name: Check Node.js Version
+        run: node -v  # This will print the Node.js version in the GitHub Actions logs
+
+       
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Cypress Tests
+        run: npm run cypress:run
+
+      - name: Generate Allure Report
+        run: npm run allure:generate
+
+      - name: Upload Allure Report as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report
+
+      - name: Deploy Allure Report to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
